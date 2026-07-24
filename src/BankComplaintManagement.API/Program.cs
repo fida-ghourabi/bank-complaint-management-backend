@@ -1,4 +1,7 @@
+using BankComplaintManagement.Domain.Interfaces;
+using BankComplaintManagement.Domain.Interfaces.Repositories;
 using BankComplaintManagement.Infrastructure.Persistence;
+using BankComplaintManagement.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +15,26 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         builder.Configuration.GetConnectionString(
             "DefaultConnection"));
 });
+
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+
+builder.Services.AddScoped<IAgentRepository, AgentRepository>();
+
+builder.Services.AddScoped<IComplaintRepository, ComplaintRepository>();
+
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
+builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
+
+builder.Services.AddScoped<IBankAccountRepository, BankAccountRepository>();
+
+builder.Services.AddScoped<IBankCardRepository, BankCardRepository>();
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
