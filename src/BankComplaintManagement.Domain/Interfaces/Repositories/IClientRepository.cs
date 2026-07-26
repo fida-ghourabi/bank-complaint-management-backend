@@ -45,6 +45,7 @@ namespace BankComplaintManagement.Domain.Interfaces.Repositories
               int pageNumber,
               int pageSize);
 
+        Task<IReadOnlyList<Client>> GetAllAsync();
         Task AddAsync(Client client);
 
         void Update(Client client);

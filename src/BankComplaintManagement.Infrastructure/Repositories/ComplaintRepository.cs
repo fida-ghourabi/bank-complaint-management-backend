@@ -39,6 +39,25 @@ namespace BankComplaintManagement.Infrastructure.Repositories
 
 
 
+        public async Task<Complaint?> GetByIdWithDetailsAsync(Guid id)
+        {
+
+            return await _context.Complaints
+
+                .Include(c => c.Client)
+
+                .Include(c => c.Messages)
+                    .ThenInclude(m => m.Attachments)
+
+                .Include(c => c.Attachments)
+
+                .FirstOrDefaultAsync(
+                    c => c.Id == id);
+
+        }
+
+
+
         public async Task<Complaint?> GetByReferenceAsync(
             string referenceNumber)
         {

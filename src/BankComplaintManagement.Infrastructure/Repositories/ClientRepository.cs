@@ -94,6 +94,19 @@ namespace BankComplaintManagement.Infrastructure.Repositories
         }
 
 
+        public async Task<IReadOnlyList<Client>> GetAllAsync()
+        {
+
+            return await _context.Clients
+
+                .AsNoTracking()
+
+                .OrderBy(c => c.LastName)
+
+                .ToListAsync();
+
+        }
+
         public async Task<IReadOnlyList<Client>> SearchAsync(string keyword)
         {
             return await _context.Clients

@@ -11,7 +11,7 @@ namespace BankComplaintManagement.Domain.Enums
         NewComplaint = 1,
         CustomerReply = 2,
         AgentReply = 3,
-        SlaReminder = 4,
+        //SlaReminder = 4,
         StatusChanged = 5
     }
 }

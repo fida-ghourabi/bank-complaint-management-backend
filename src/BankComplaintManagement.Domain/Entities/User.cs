@@ -23,7 +23,7 @@ namespace BankComplaintManagement.Domain.Entities
 
 
 
-        public UserRole Role { get; protected set; }
+        public UserRole Role { get; private set; }
 
         public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 

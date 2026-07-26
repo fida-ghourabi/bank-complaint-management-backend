@@ -125,6 +125,16 @@ namespace BankComplaintManagement.Domain.Entities
         public Client Client { get; private set; } = null!;
 
 
+        // =========================
+        // Related banking resources
+        // =========================
+ 
+        public Guid RelatedBankAccountId { get; private set; }
+
+
+        public Guid? RelatedBankCardId { get; private set; }
+
+
 
         // =========================
         // Agent relationship
@@ -163,6 +173,8 @@ namespace BankComplaintManagement.Domain.Entities
 
         public Complaint(
             Guid clientId,
+            Guid relatedBankAccountId,
+            Guid? relatedBankCardId,
             ComplaintCategory category,
             string subCategory,
             string subject,
@@ -179,6 +191,10 @@ namespace BankComplaintManagement.Domain.Entities
 
 
             ClientId = clientId;
+
+            RelatedBankAccountId = relatedBankAccountId;
+
+            RelatedBankCardId = relatedBankCardId;
 
 
             Category = category;

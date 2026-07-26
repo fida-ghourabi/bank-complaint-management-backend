@@ -151,6 +151,32 @@ namespace BankComplaintManagement.Infrastructure.Repositories
         // Statistiques globales agents
         // =====================================================
 
+        public async Task<double> GetAverageWorkloadAsync()
+        {
+
+            var totalAgents =
+                await _context.Agents.CountAsync();
+
+
+            if (totalAgents == 0)
+                return 0;
+
+
+
+            var totalComplaints =
+                await _context.Complaints
+                .CountAsync(c =>
+                    c.AssignedAgentId != null);
+
+
+
+            return Math.Round(
+                (double)totalComplaints / totalAgents,
+                2);
+
+        }
+
+
 
         // Nombre total des agents
 

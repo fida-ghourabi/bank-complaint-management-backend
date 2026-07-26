@@ -18,7 +18,7 @@ namespace BankComplaintManagement.Domain.Interfaces.Repositories
 
         Task<Complaint?> GetByIdAsync(Guid id);
 
-
+        Task<Complaint?> GetByIdWithDetailsAsync(Guid id);
 
         Task<Complaint?> GetByReferenceAsync(
             string referenceNumber);

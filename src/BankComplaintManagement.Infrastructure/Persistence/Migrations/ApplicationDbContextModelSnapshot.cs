@@ -78,6 +78,10 @@ namespace BankComplaintManagement.Infrastructure.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<decimal>("Balance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
@@ -214,6 +218,12 @@ namespace BankComplaintManagement.Infrastructure.Persistence.Migrations
                     b.Property<string>("RejectionReason")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("RelatedBankAccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RelatedBankCardId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("SlaDueDate")
                         .HasColumnType("datetime2");

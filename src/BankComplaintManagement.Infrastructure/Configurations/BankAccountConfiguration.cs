@@ -70,6 +70,8 @@ namespace BankComplaintManagement.Infrastructure.Configurations
 
 
 
+            builder.Property(x => x.Balance)
+                .HasPrecision(18, 2);
 
 
             // =========================

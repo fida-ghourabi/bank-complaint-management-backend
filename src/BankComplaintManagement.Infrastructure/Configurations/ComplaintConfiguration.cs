@@ -156,6 +156,20 @@ namespace BankComplaintManagement.Infrastructure.Configurations
                 .HasForeignKey(c => c.ClientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // ==========================
+            // Related Bank Resources
+            // ==========================
+
+            builder.Property(c => c.RelatedBankAccountId)
+                .IsRequired();
+
+
+
+            builder.Property(c => c.RelatedBankCardId)
+                .IsRequired(false);
+
+
+
             // =========================
             // Agent relationship
             // =========================

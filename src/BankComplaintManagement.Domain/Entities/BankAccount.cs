@@ -19,9 +19,10 @@ namespace BankComplaintManagement.Domain.Entities
         public string IBAN { get; set; } = null!;
 
 
-        public AccountType Type { get; set; } 
+        public AccountType Type { get; set; }
 
 
+        public decimal Balance { get; private set; }
 
         public Guid ClientId { get; private set; }
 
@@ -43,6 +44,7 @@ namespace BankComplaintManagement.Domain.Entities
             string accountNumber,
             string iban,
             AccountType type,
+            decimal balance,
             Guid clientId)
         {
 

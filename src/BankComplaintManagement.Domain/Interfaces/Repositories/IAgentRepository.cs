@@ -36,9 +36,14 @@ namespace BankComplaintManagement.Domain.Interfaces.Repositories
             int pageNumber,
             int pageSize);
 
+        Task<bool> ExistsByEmailAsync(
+            string email);
 
+        Task<bool> ExistsByMatriculeAsync(
+            string matricule);
 
         // Statistiques agents
+        Task<double> GetAverageWorkloadAsync();
 
         Task<int> CountTotalAgentsAsync();
 
