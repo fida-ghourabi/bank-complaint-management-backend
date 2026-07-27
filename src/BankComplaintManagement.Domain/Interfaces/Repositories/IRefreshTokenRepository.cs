@@ -7,12 +7,19 @@ using System.Threading.Tasks;
 
 namespace BankComplaintManagement.Domain.Interfaces.Repositories
 {
-    public interface IUserRepository
+    public interface IRefreshTokenRepository
     {
-        Task<IReadOnlyList<User>> GetAgentsAndAdminsAsync();
 
-        Task<User?> GetByEmailAsync(string email);
+        Task<RefreshToken?> GetByTokenAsync(
+            string token);
 
-        Task<User?> GetByIdAsync(Guid id);
+
+        Task AddAsync(
+            RefreshToken refreshToken);
+
+
+        void Update(
+            RefreshToken refreshToken);
+
     }
 }

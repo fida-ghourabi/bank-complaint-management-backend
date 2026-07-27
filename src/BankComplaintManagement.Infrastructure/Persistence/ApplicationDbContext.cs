@@ -57,7 +57,7 @@ namespace BankComplaintManagement.Infrastructure.Persistence
 
         public DbSet<BankCard> BankCards { get; set; }
 
-
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
 
         protected override void OnModelCreating(
@@ -66,36 +66,12 @@ namespace BankComplaintManagement.Infrastructure.Persistence
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(
-                new UserConfiguration());
-
-
-            modelBuilder.ApplyConfiguration(
-                new ClientConfiguration());
-
-            modelBuilder.ApplyConfiguration(
-                new AgentConfiguration());
-
-            modelBuilder.ApplyConfiguration(
-                new BankAccountConfiguration());
-
-            modelBuilder.ApplyConfiguration(
-                new BankCardConfiguration());
-
-            modelBuilder.ApplyConfiguration(
-                new ComplaintConfiguration());
-
-            modelBuilder.ApplyConfiguration(
-                new NotificationConfiguration());
-
-            modelBuilder.ApplyConfiguration(
-                new MessageConfiguration());
-
-            modelBuilder.ApplyConfiguration(
-                new AttachmentConfiguration());
+            modelBuilder.ApplyConfigurationsFromAssembly(
+                  typeof(ApplicationDbContext).Assembly);
         }
+    }
 
          
 
-    }
+    
 }

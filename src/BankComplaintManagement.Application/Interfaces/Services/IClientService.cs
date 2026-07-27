@@ -12,6 +12,9 @@ namespace BankComplaintManagement.Application.Interfaces.Services
     public interface IClientService
     {
 
+        Task<ClientDto> RegisterAsync(
+             RegisterClientRequest request);
+
 
         // ===================================
         // Profil client connecté

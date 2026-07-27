@@ -5,6 +5,7 @@ using BankComplaintManagement.Infrastructure.Persistence;
 using BankComplaintManagement.Infrastructure.Persistence.Seed;
 using BankComplaintManagement.Infrastructure.Repositories;
 using BankComplaintManagement.Infrastructure.Secutity;
+using BankComplaintManagement.Infrastructure.Services;
 using BankComplaintManagement.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -68,6 +69,8 @@ namespace BankComplaintManagement.Infrastructure
 
             services.AddScoped<IBankCardRepository, BankCardRepository>();
 
+            services.AddScoped<IUserRepository, UserRepository>();
+
 
             // ===================================
             // Unit Of Work
@@ -76,10 +79,12 @@ namespace BankComplaintManagement.Infrastructure
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            // Infrastructure services
 
 
             services.AddScoped<IPasswordService, PasswordService>();
 
+            services.AddScoped<IJwtService, JwtService>();
 
             return services;
 

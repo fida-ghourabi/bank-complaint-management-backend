@@ -34,8 +34,7 @@ namespace BankComplaintManagement.Application
 
             services.AddScoped<IBankAccountService, BankAccountService>();
 
-
-
+            services.AddScoped<IAuthService, AuthService>();
             return services;
 
         }

@@ -9,9 +9,14 @@ using BankComplaintManagement.Infrastructure.Persistence.Seed;
 using BankComplaintManagement.Infrastructure.Repositories;
 using BankComplaintManagement.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
+using JwtSettings = BankComplaintManagement.Infrastructure.Settings.JwtSettings;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services
+    .Configure<JwtSettings>(
+        builder.Configuration
+        .GetSection("JwtSettings"));
 
 // ================================
 // Application Layer

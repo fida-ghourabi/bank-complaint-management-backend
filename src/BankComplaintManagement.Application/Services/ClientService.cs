@@ -1,6 +1,7 @@
 ﻿using BankComplaintManagement.Application.DTOs.Clients;
 using BankComplaintManagement.Application.Interfaces.Services;
 using BankComplaintManagement.Application.Mappings;
+using BankComplaintManagement.Domain.Entities;
 using BankComplaintManagement.Domain.Enums;
 using BankComplaintManagement.Domain.Interfaces;
 using BankComplaintManagement.Domain.Interfaces.Repositories;
@@ -46,7 +47,113 @@ namespace BankComplaintManagement.Application.Services
         }
 
 
+        public async Task<ClientDto> RegisterAsync(
+            RegisterClientRequest request)
+        {
 
+
+            // ============================
+            // Validation
+            // ============================
+
+
+            if (request.Password != request.ConfirmPassword)
+            {
+                throw new InvalidOperationException(
+                    "Les mots de passe ne correspondent pas.");
+            }
+
+
+
+
+            bool emailExists =
+                await _clientRepository
+                .ExistsByEmailAsync(request.Email);
+
+
+
+            if (emailExists)
+            {
+                throw new InvalidOperationException(
+                    "Cet email existe déjà.");
+            }
+
+
+
+
+            bool cinExists =
+                await _clientRepository
+                .ExistsByCinAsync(request.CIN);
+
+
+
+            if (cinExists)
+            {
+                throw new InvalidOperationException(
+                    "Ce CIN existe déjà.");
+            }
+
+
+
+
+
+            // ============================
+            // Hash Password
+            // ============================
+
+
+            var passwordHash =
+                _passwordService
+                .HashPassword(request.Password);
+
+
+
+
+
+            // ============================
+            // Création Client
+            // ============================
+
+
+            var client =
+                new Client(
+
+                    request.FirstName,
+
+                    request.LastName,
+
+                    request.Email,
+
+                    passwordHash,
+
+                    request.CIN,
+
+                    request.PhoneNumber
+
+                );
+
+
+
+
+
+            await _clientRepository
+                .AddAsync(client);
+
+
+
+
+
+            await _unitOfWork
+                .SaveChangesAsync();
+
+
+
+
+
+
+            return client.ToDto();
+
+        }
 
 
         // ===================================

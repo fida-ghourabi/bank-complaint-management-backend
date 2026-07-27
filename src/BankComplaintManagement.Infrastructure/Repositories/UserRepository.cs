@@ -30,5 +30,28 @@ namespace BankComplaintManagement.Infrastructure.Repositories
                     u.Role == UserRole.Admin)
                 .ToListAsync();
         }
+
+
+
+        public async Task<User?> GetByEmailAsync(
+            string email)
+        {
+
+            return await _context.Users
+                .FirstOrDefaultAsync(
+                    u => u.Email == email);
+
+        }
+
+
+        public async Task<User?> GetByIdAsync(
+           Guid id)
+        {
+
+            return await _context.Users
+                .FirstOrDefaultAsync(u =>
+                    u.Id == id);
+
+        }
     }
 }
