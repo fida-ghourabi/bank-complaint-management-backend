@@ -20,3 +20,4 @@ namespace BankComplaintManagement.Application.Exceptions
             StatusCode = statusCode;
         }
     }
+}

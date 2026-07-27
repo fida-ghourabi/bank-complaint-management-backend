@@ -1,7 +1,10 @@
+using BankComplaintManagement.API;
+using BankComplaintManagement.API.Filters;
 using BankComplaintManagement.API.Middleware;
 using BankComplaintManagement.Application;
 using BankComplaintManagement.Application.Interfaces.Services;
 using BankComplaintManagement.Application.Services;
+using BankComplaintManagement.Application.Validators.Auth;
 using BankComplaintManagement.Domain.Interfaces;
 using BankComplaintManagement.Domain.Interfaces.Repositories;
 using BankComplaintManagement.Infrastructure;
@@ -9,10 +12,20 @@ using BankComplaintManagement.Infrastructure.Persistence;
 using BankComplaintManagement.Infrastructure.Persistence.Seed;
 using BankComplaintManagement.Infrastructure.Repositories;
 using BankComplaintManagement.Infrastructure.Settings;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using JwtSettings = BankComplaintManagement.Infrastructure.Settings.JwtSettings;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+// ================================
+// PRESENTATION Layer
+// ================================
+
+builder.Services.AddPresentation();
+
 
 builder.Services
     .Configure<JwtSettings>(
@@ -35,10 +48,6 @@ builder.Services.AddInfrastructure(
     builder.Configuration);
 
 
-// Controllers
-
-//builder.Services.AddControllers();
-
 
 
 
@@ -50,7 +59,7 @@ builder.Services.AddOpenApi();
 var app = builder.Build();
 
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 
 
 // ================================
@@ -70,10 +79,8 @@ using (var scope = app.Services.CreateScope())
 
 }
 
-app.UseAuthentication();
 
-
-app.UseAuthorization();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -83,28 +90,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.UseAuthentication();
+
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+
+
+
+
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
