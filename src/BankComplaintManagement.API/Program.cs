@@ -1,3 +1,4 @@
+using BankComplaintManagement.API.Middleware;
 using BankComplaintManagement.Application;
 using BankComplaintManagement.Application.Interfaces.Services;
 using BankComplaintManagement.Application.Services;
@@ -49,6 +50,9 @@ builder.Services.AddOpenApi();
 var app = builder.Build();
 
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+
 // ================================
 // Database Seed
 // ================================
@@ -66,6 +70,10 @@ using (var scope = app.Services.CreateScope())
 
 }
 
+app.UseAuthentication();
+
+
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
