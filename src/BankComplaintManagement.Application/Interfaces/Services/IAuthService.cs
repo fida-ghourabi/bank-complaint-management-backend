@@ -1,4 +1,5 @@
 ﻿using BankComplaintManagement.Application.DTOs.Auth;
+using BankComplaintManagement.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,11 @@ namespace BankComplaintManagement.Application.Interfaces.Services
 
 
         Task<LoginResponse> RefreshTokenAsync(
-            string refreshToken);
+            RefreshTokenRequest refreshToken);
 
 
 
         Task LogoutAsync(
-            string refreshToken);
+            RefreshTokenRequest refreshToken);
     }
 }

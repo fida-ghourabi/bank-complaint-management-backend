@@ -141,13 +141,13 @@ namespace BankComplaintManagement.Application.Services
 
 
         public async Task<LoginResponse> RefreshTokenAsync(
-            string refreshToken)
+            RefreshTokenRequest refreshToken)
         {
 
 
             var existingToken =
                 await _refreshTokenRepository
-                .GetByTokenAsync(refreshToken);
+                .GetByTokenAsync(refreshToken.RefreshToken);
 
 
 
@@ -274,13 +274,13 @@ namespace BankComplaintManagement.Application.Services
 
 
         public async Task LogoutAsync(
-            string refreshToken)
+            RefreshTokenRequest refreshToken)
         {
 
 
             var token =
                 await _refreshTokenRepository
-                .GetByTokenAsync(refreshToken);
+                .GetByTokenAsync(refreshToken.RefreshToken);
 
 
 
