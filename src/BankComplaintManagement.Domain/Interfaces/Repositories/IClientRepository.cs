@@ -50,6 +50,6 @@ namespace BankComplaintManagement.Domain.Interfaces.Repositories
 
         void Update(Client client);
 
-
+        Task<Client?> GetByIdWithAccountsAsync(Guid id);
     }
 }

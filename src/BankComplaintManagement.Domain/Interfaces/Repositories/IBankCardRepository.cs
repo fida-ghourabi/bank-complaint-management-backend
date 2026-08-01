@@ -55,5 +55,8 @@ namespace BankComplaintManagement.Domain.Interfaces.Repositories
         // Compter les cartes d'un compte
         Task<int> CountByBankAccountAsync(
             Guid bankAccountId);
+
+        Task<IReadOnlyList<BankCard>> GetByClientIdAsync(
+             Guid clientId);
     }
 }

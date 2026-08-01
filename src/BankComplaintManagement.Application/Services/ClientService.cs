@@ -1,4 +1,5 @@
 ﻿using BankComplaintManagement.Application.DTOs.Clients;
+using BankComplaintManagement.Application.Exceptions;
 using BankComplaintManagement.Application.Interfaces.Services;
 using BankComplaintManagement.Application.Mappings;
 using BankComplaintManagement.Domain.Entities;
@@ -59,7 +60,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (request.Password != request.ConfirmPassword)
             {
-                throw new InvalidOperationException(
+                throw new BadRequestException(
                     "Les mots de passe ne correspondent pas.");
             }
 
@@ -74,7 +75,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (emailExists)
             {
-                throw new InvalidOperationException(
+                throw new ConflictException(
                     "Cet email existe déjà.");
             }
 
@@ -89,7 +90,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (cinExists)
             {
-                throw new InvalidOperationException(
+                throw new ConflictException(
                     "Ce CIN existe déjà.");
             }
 
@@ -161,18 +162,19 @@ namespace BankComplaintManagement.Application.Services
         // ===================================
 
 
-        public async Task<ClientProfileDto?> GetProfileAsync(
+        public async Task<ClientProfileDto> GetProfileAsync(
             Guid clientId)
         {
 
             var client =
                 await _clientRepository
-                .GetByIdAsync(clientId);
+                .GetByIdWithAccountsAsync(clientId);
 
 
 
             if (client == null)
-                return null;
+                throw new NotFoundException(
+                "Client introuvable.");
 
 
 
@@ -198,7 +200,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (client == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Client introuvable.");
             }
 
@@ -251,7 +253,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (client == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Client introuvable.");
             }
 
@@ -263,7 +265,7 @@ namespace BankComplaintManagement.Application.Services
                 request.OldPassword,
                 client.PasswordHash))
             {
-                throw new InvalidOperationException(
+                throw new UnauthorizedException(
                     "Ancien mot de passe incorrect.");
             }
 
@@ -274,7 +276,7 @@ namespace BankComplaintManagement.Application.Services
             if (request.NewPassword !=
                request.ConfirmPassword)
             {
-                throw new InvalidOperationException(
+                throw new BadRequestException(
                     "Les mots de passe ne correspondent pas.");
             }
 
@@ -309,7 +311,7 @@ namespace BankComplaintManagement.Application.Services
         // ===================================
 
 
-        public async Task<ClientDetailsDto?> GetDetailsAsync(
+        public async Task<ClientDetailsDto> GetDetailsAsync(
             Guid clientId)
         {
 
@@ -320,7 +322,8 @@ namespace BankComplaintManagement.Application.Services
 
 
             if (client == null)
-                return null;
+               throw new NotFoundException(
+                    "Client introuvable.");
 
 
 
@@ -405,7 +408,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (client == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Client introuvable.");
             }
 

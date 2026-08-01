@@ -25,8 +25,7 @@ namespace BankComplaintManagement.Application.Mappings
                 FileName = attachment.FileName,
 
 
-                FilePath = attachment.FilePath,
-
+                DownloadUrl = $"/api/attachments/{attachment.Id}/download",
 
                 ContentType = attachment.ContentType,
 

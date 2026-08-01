@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace BankComplaintManagement.Application.Exceptions
 {
-    internal class ValidationException
+    public class ForbiddenException : BaseException
     {
+        public ForbiddenException(string message)
+            : base(message, 403)
+        {
+
+        }
     }
 }
+

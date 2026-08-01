@@ -155,6 +155,23 @@ namespace BankComplaintManagement.Infrastructure.Repositories
         }
 
 
+
+        // Récupérer les cartes d'un client
+
+        public async Task<IReadOnlyList<BankCard>>
+            GetByClientIdAsync(
+                Guid clientId)
+        {
+
+
+            return await _context.BankCards
+                .Where(card =>
+                    card.BankAccount.ClientId == clientId)
+                .ToListAsync();
+
+
+        }
+
     }
 }
 

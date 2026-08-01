@@ -119,41 +119,71 @@ namespace BankComplaintManagement.Application.Mappings
 
                 Id = complaint.Id,
 
-
-                ReferenceNumber =
-                    complaint.ReferenceNumber,
-
-
-                Category =
-                    complaint.Category,
+                        ReferenceNumber =
+                complaint.ReferenceNumber,
 
 
-                SubCategory =
-                    complaint.SubCategory,
+                        Category =
+                complaint.Category,
 
 
-                Subject =
-                    complaint.Subject,
+                        SubCategory =
+                complaint.SubCategory,
 
 
-                Description =
-                    complaint.Description,
+                        Subject =
+                complaint.Subject,
 
 
-                Status =
-                    complaint.Status,
+                        Description =
+                complaint.Description,
 
 
-                Priority =
-                    complaint.Priority,
+                        Status =
+                complaint.Status,
 
 
-                CreatedAt =
-                    complaint.CreatedAt,
+                        Priority =
+                complaint.Priority,
 
 
-                SlaDueDate =
-                    complaint.SlaDueDate,
+                        IncidentDate =
+                complaint.IncidentDate,
+
+
+                        IncidentTime =
+                complaint.IncidentTime,
+
+
+                        CreatedAt =
+                complaint.CreatedAt,
+
+
+                        SlaDueDate =
+                complaint.SlaDueDate,
+
+
+
+                        AssignedAgentId =
+                complaint.AssignedAgentId,
+
+
+                        AssignedAgentName =
+                complaint.AssignedAgent == null
+                ?
+                null
+                :
+                $"{complaint.AssignedAgent.FirstName} {complaint.AssignedAgent.LastName}",
+
+
+
+                        TransferTo =
+                complaint.TransferTo,
+
+
+                        RejectionReason =
+                complaint.RejectionReason,
+
 
 
 

@@ -12,7 +12,7 @@ namespace BankComplaintManagement.Application.Interfaces.Services
 
         Task<MessageDto> CreateAsync(
             Guid complaintId,
-            CreateMessageRequest request);
+            CreateMessageRequest request,bool isAgent);
 
 
 

@@ -6,19 +6,25 @@ using System.Threading.Tasks;
 
 namespace BankComplaintManagement.Application.DTOs.Attachments
 {
-    public class CreateAttachmentRequest
+    public class FileDownloadDto
     {
 
+        // Nom affiché lors du téléchargement
         public string FileName { get; set; } = null!;
 
 
-        public string FilePath { get; set; } = null!;
 
-
+        // Type du fichier
+        // exemple:
+        // application/pdf
+        // image/png
         public string ContentType { get; set; } = null!;
 
 
-        public long FileSize { get; set; }
+
+        // Contenu du fichier
+        public byte[] Content { get; set; } = null!;
+
 
     }
 }

@@ -29,7 +29,6 @@ namespace BankComplaintManagement.API.Middleware
         public async Task InvokeAsync(
             HttpContext context)
         {
-
             try
             {
                 await _next(context);
@@ -40,8 +39,8 @@ namespace BankComplaintManagement.API.Middleware
                     context,
                     exception);
             }
-
         }
+
 
 
 
@@ -55,11 +54,31 @@ namespace BankComplaintManagement.API.Middleware
         {
 
 
+            // Si la réponse HTTP a déjà commencé,
+            // on ne peut plus la modifier
+
+            if (context.Response.HasStarted)
+            {
+                _logger.LogWarning(
+                    "La réponse HTTP a déjà commencé.");
+
+                throw exception;
+            }
+
+
+
+
+
             int statusCode;
 
             string message;
 
 
+
+
+            // ================================
+            // Exceptions métiers
+            // ================================
 
             if (exception is BaseException baseException)
             {
@@ -72,8 +91,14 @@ namespace BankComplaintManagement.API.Middleware
                     baseException.Message;
 
             }
+
             else
             {
+
+                // ================================
+                // Erreur inconnue
+                // ================================
+
 
                 statusCode =
                     (int)HttpStatusCode.InternalServerError;
@@ -81,6 +106,7 @@ namespace BankComplaintManagement.API.Middleware
 
                 message =
                     "Une erreur interne est survenue.";
+
 
 
                 _logger.LogError(
@@ -104,8 +130,7 @@ namespace BankComplaintManagement.API.Middleware
 
 
 
-
-            var errorResponse =
+            var response =
                 new ErrorResponse
                 {
                     Success = false,
@@ -122,14 +147,23 @@ namespace BankComplaintManagement.API.Middleware
 
 
 
+
+            var options =
+                new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy =
+                        JsonNamingPolicy.CamelCase
+                };
+
+
+
+
+
+
             var json =
                 JsonSerializer.Serialize(
-                    errorResponse,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy =
-                            JsonNamingPolicy.CamelCase
-                    });
+                    response,
+                    options);
 
 
 

@@ -1,4 +1,5 @@
 ﻿using BankComplaintManagement.Application.DTOs.Notifications;
+using BankComplaintManagement.Application.Exceptions;
 using BankComplaintManagement.Application.Interfaces.Services;
 using BankComplaintManagement.Application.Mappings;
 using BankComplaintManagement.Domain.Entities;
@@ -118,7 +119,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Réclamation introuvable.");
             }
 
@@ -179,7 +180,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Réclamation introuvable.");
             }
 
@@ -231,7 +232,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Réclamation introuvable.");
             }
 
@@ -326,7 +327,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (notification == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Notification introuvable.");
             }
 

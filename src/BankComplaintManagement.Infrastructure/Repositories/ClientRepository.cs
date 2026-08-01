@@ -27,6 +27,14 @@ namespace BankComplaintManagement.Infrastructure.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        public async Task<Client?> GetByIdWithAccountsAsync(Guid id)
+        {
+            return await _context.Clients
+                .Include(c => c.BankAccounts)
+                  
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
         public async Task<Client?> GetByCustomerNumberAsync(string customerNumber)
         {
             return await _context.Clients

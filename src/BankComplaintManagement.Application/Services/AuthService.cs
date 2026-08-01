@@ -1,7 +1,9 @@
 ﻿using BankComplaintManagement.Application.DTOs.Auth;
+using BankComplaintManagement.Application.Exceptions;
 using BankComplaintManagement.Application.Interfaces.Services;
 using BankComplaintManagement.Application.Mappings;
 using BankComplaintManagement.Domain.Entities;
+using BankComplaintManagement.Domain.Interfaces;
 using BankComplaintManagement.Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,8 @@ namespace BankComplaintManagement.Application.Services
 
         private readonly IRefreshTokenService _refreshTokenService;
 
+        private readonly IUnitOfWork _unitOfWork;
+
 
 
         public AuthService(
@@ -32,7 +36,8 @@ namespace BankComplaintManagement.Application.Services
             IRefreshTokenRepository refreshTokenRepository,
             IPasswordService passwordService,
             IJwtService jwtService,
-            IRefreshTokenService refreshTokenService)
+            IRefreshTokenService refreshTokenService,
+            IUnitOfWork unitOfWork)
         {
 
             _userRepository = userRepository;
@@ -44,6 +49,8 @@ namespace BankComplaintManagement.Application.Services
             _jwtService = jwtService;
 
             _refreshTokenService = refreshTokenService;
+
+            _unitOfWork = unitOfWork;
 
         }
 
@@ -65,7 +72,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (user == null)
             {
-                throw new Exception(
+                throw new UnauthorizedException(
                     "Email ou mot de passe incorrect");
             }
 
@@ -83,7 +90,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (!validPassword)
             {
-                throw new Exception(
+                throw new UnauthorizedException(
                     "Email ou mot de passe incorrect");
             }
 
@@ -122,7 +129,8 @@ namespace BankComplaintManagement.Application.Services
                 .AddAsync(refreshToken);
 
 
-
+            await _unitOfWork
+               .SaveChangesAsync();
 
 
             return user.ToLoginResponse(
@@ -141,20 +149,20 @@ namespace BankComplaintManagement.Application.Services
 
 
         public async Task<LoginResponse> RefreshTokenAsync(
-            RefreshTokenRequest refreshToken)
+            String refreshToken)
         {
 
 
             var existingToken =
                 await _refreshTokenRepository
-                .GetByTokenAsync(refreshToken.RefreshToken);
+                .GetByTokenAsync(refreshToken);
 
 
 
 
             if (existingToken == null)
             {
-                throw new Exception(
+                throw new UnauthorizedException(
                     "Refresh token invalide");
             }
 
@@ -164,7 +172,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (existingToken.IsRevoked)
             {
-                throw new Exception(
+                throw new UnauthorizedException(
                     "Refresh token révoqué");
             }
 
@@ -174,7 +182,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (existingToken.IsExpired())
             {
-                throw new Exception(
+                throw new UnauthorizedException(
                     "Refresh token expiré");
             }
 
@@ -194,7 +202,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (user == null)
             {
-                throw new Exception(
+                throw new NotFoundException(
                     "Utilisateur introuvable");
             }
 
@@ -254,7 +262,8 @@ namespace BankComplaintManagement.Application.Services
                 .AddAsync(newRefreshToken);
 
 
-
+            await _unitOfWork
+               .SaveChangesAsync();
 
 
 
@@ -274,19 +283,20 @@ namespace BankComplaintManagement.Application.Services
 
 
         public async Task LogoutAsync(
-            RefreshTokenRequest refreshToken)
+            String refreshToken)
         {
 
 
             var token =
                 await _refreshTokenRepository
-                .GetByTokenAsync(refreshToken.RefreshToken);
+                .GetByTokenAsync(refreshToken);
 
 
 
             if (token == null)
             {
-                return;
+                throw new NotFoundException(
+                    "Token introuvable");
             }
 
 
@@ -298,6 +308,9 @@ namespace BankComplaintManagement.Application.Services
 
             _refreshTokenRepository
                 .Update(token);
+
+            await _unitOfWork
+               .SaveChangesAsync();
 
         }
 

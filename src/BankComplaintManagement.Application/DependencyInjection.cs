@@ -35,6 +35,16 @@ namespace BankComplaintManagement.Application
             services.AddScoped<IBankAccountService, BankAccountService>();
 
             services.AddScoped<IAuthService, AuthService>();
+
+            services.AddScoped<IAttachmentService, AttachmentService>();
+
+            services.AddScoped<IBankCardService, BankCardService>();
+
+            services.AddScoped<IAttachmentService, AttachmentService>();
+
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+
+
             return services;
 
         }

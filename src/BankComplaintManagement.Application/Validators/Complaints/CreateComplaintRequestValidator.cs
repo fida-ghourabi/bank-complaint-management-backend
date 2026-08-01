@@ -109,7 +109,7 @@ namespace BankComplaintManagement.Application.Validators.Complaints
 
 
             RuleForEach(x => x.Attachments)
-                .SetValidator(new CreateAttachmentRequestValidator());
+                .SetValidator(new FileValidator());
 
         }
     }

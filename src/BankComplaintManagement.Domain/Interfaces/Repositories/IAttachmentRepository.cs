@@ -13,6 +13,7 @@ namespace BankComplaintManagement.Domain.Interfaces.Repositories
         Task<Attachment?> GetByIdAsync(Guid id);
 
 
+    
 
         // Récupérer toutes les pièces jointes d'une réclamation
         Task<IReadOnlyList<Attachment>> GetByComplaintIdAsync(

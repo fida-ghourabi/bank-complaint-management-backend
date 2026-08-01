@@ -16,11 +16,11 @@ namespace BankComplaintManagement.Application.Interfaces.Services
 
 
         Task<LoginResponse> RefreshTokenAsync(
-            RefreshTokenRequest refreshToken);
+            String refreshToken);
 
 
 
         Task LogoutAsync(
-            RefreshTokenRequest refreshToken);
+            String refreshToken);
     }
 }

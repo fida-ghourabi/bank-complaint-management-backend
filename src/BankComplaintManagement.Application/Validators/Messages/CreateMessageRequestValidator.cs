@@ -21,7 +21,7 @@ namespace BankComplaintManagement.Application.Validators.Messages
                 .WithMessage("Le message ne doit pas dépasser 2000 caractères.");
 
             RuleForEach(x => x.Attachments)
-                .SetValidator(new CreateAttachmentRequestValidator());
+                .SetValidator(new FileValidator());
         }
     }
 }

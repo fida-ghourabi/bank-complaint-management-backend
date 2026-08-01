@@ -262,7 +262,7 @@ namespace BankComplaintManagement.Application.Mappings
 
 
                             AccountNumber =
-                                a.AccountNumber,
+                                MaskAccountNumber(a.AccountNumber),
 
 
                             Type =
@@ -278,6 +278,29 @@ namespace BankComplaintManagement.Application.Mappings
 
             };
 
+        }
+
+
+
+        private static string MaskAccountNumber(
+           string accountNumber)
+        {
+            if (string.IsNullOrWhiteSpace(accountNumber))
+                return string.Empty;
+
+
+            const int visibleDigits = 4;
+
+
+            if (accountNumber.Length <= visibleDigits)
+                return accountNumber;
+
+
+            return new string('*',
+                    accountNumber.Length - visibleDigits)
+                    +
+                    accountNumber.Substring(
+                        accountNumber.Length - visibleDigits);
         }
 
 

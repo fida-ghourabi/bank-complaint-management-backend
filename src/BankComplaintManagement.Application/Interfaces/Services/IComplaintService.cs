@@ -18,12 +18,12 @@ namespace BankComplaintManagement.Application.Interfaces.Services
         // =============================
 
 
-        Task<ComplaintDetailsDto?> GetDetailsAsync(
+        Task<ComplaintDetailsDto> GetDetailsAsync(
             Guid complaintId);
 
 
 
-        Task<ComplaintDto?> GetByIdAsync(
+        Task<ComplaintDto> GetByIdAsync(
             Guid complaintId);
 
 
@@ -32,7 +32,7 @@ namespace BankComplaintManagement.Application.Interfaces.Services
             int pageNumber,
             int pageSize);
 
-        Task<ComplaintDto?> GetByReferenceAsync(
+        Task<ComplaintDto> GetByReferenceAsync(
             string referenceNumber);
 
         Task<IReadOnlyList<ComplaintDto>> GetByClientAsync(
@@ -96,8 +96,13 @@ namespace BankComplaintManagement.Application.Interfaces.Services
             Guid complaintId,
             RejectComplaintRequest request);
 
+        Task ChangePriorityAsync(
+            Guid complaintId,
+            ChangeComplaintPriorityRequest request);
 
-
+        Task TransferToServiceAsync(
+            Guid complaintId,
+            TransferComplaintServiceRequest request);
 
         // =============================
         // Dashboard

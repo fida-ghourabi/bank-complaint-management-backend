@@ -1,4 +1,5 @@
 ﻿using BankComplaintManagement.Application.DTOs.Complaints;
+using BankComplaintManagement.Application.Exceptions;
 using BankComplaintManagement.Application.Interfaces.Services;
 using BankComplaintManagement.Application.Mappings;
 using BankComplaintManagement.Domain.Entities;
@@ -30,6 +31,7 @@ namespace BankComplaintManagement.Application.Services
 
         private readonly INotificationService _notificationService;
 
+        private readonly IFileStorageService _storage;
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -43,7 +45,8 @@ namespace BankComplaintManagement.Application.Services
             IAgentRepository agentRepository,
             IAttachmentRepository attachmentRepository,
             INotificationService notificationService,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IFileStorageService storage)
         {
 
             _complaintRepository = complaintRepository;
@@ -61,7 +64,7 @@ namespace BankComplaintManagement.Application.Services
             _notificationService = notificationService;
 
             _unitOfWork = unitOfWork;
-
+            _storage = storage;
         }
 
 
@@ -78,8 +81,7 @@ namespace BankComplaintManagement.Application.Services
         {
 
 
-            try
-            {
+            
 
                 // Vérifier client
 
@@ -90,7 +92,7 @@ namespace BankComplaintManagement.Application.Services
 
                 if (client == null)
                 {
-                    throw new KeyNotFoundException(
+                    throw new NotFoundException(
                         "Client introuvable.");
                 }
 
@@ -110,7 +112,7 @@ namespace BankComplaintManagement.Application.Services
 
                 if (account == null)
                 {
-                    throw new KeyNotFoundException(
+                    throw new NotFoundException(
                         "Compte bancaire introuvable.");
                 }
 
@@ -121,7 +123,7 @@ namespace BankComplaintManagement.Application.Services
 
                 if (account.ClientId != clientId)
                 {
-                    throw new InvalidOperationException(
+                    throw new ForbiddenException(
                         "Ce compte bancaire n'appartient pas au client.");
                 }
 
@@ -143,7 +145,7 @@ namespace BankComplaintManagement.Application.Services
 
                     if (card == null)
                     {
-                        throw new KeyNotFoundException(
+                        throw new NotFoundException(
                             "Carte bancaire introuvable.");
                     }
 
@@ -155,7 +157,7 @@ namespace BankComplaintManagement.Application.Services
                         != request.RelatedBankAccountId)
                     {
 
-                        throw new InvalidOperationException(
+                        throw new ForbiddenException(
                             "Cette carte n'appartient pas au compte sélectionné.");
 
                     }
@@ -209,33 +211,41 @@ namespace BankComplaintManagement.Application.Services
 
 
 
-                // Ajouter pièces jointes
+            // Ajouter pièces jointes
 
-                foreach (var attachmentRequest
-                    in request.Attachments)
-                {
+            foreach (var file in request.Attachments)
+            {
 
 
-                    var attachment =
-                        new Attachment(
-                            attachmentRequest.FileName,
-                            attachmentRequest.FilePath,
-                            attachmentRequest.ContentType,
-                            attachmentRequest.FileSize,
-                            complaint.Id);
+                var path =
+                await _storage.SaveFileAsync(file);
 
 
 
-                    await _attachmentRepository
-                        .AddAsync(attachment);
+                var attachment =
+                new Attachment(
+                file.FileName,
+                path,
+                file.ContentType,
+                file.Length,
+                complaintId: complaint.Id);
 
-                }
 
 
 
-                // Notification aux agents + admins
 
-                await _notificationService
+                await _attachmentRepository
+                .AddAsync(attachment);
+
+
+
+            }
+
+
+
+            // Notification aux agents + admins
+
+            await _notificationService
                     .NotifyNewComplaintAsync(
                         complaint.Id);
 
@@ -248,12 +258,9 @@ namespace BankComplaintManagement.Application.Services
 
                 return complaint.ToDto();
 
-            }
+            
 
-            catch (Exception)
-            {
-                throw;
-            }
+         
 
         }
 
@@ -270,7 +277,7 @@ namespace BankComplaintManagement.Application.Services
         // =====================================================
 
 
-        public async Task<ComplaintDto?> GetByIdAsync(
+        public async Task<ComplaintDto> GetByIdAsync(
             Guid complaintId)
         {
 
@@ -283,7 +290,8 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                return null;
+                throw new NotFoundException(
+                 "Réclamation introuvable.");
             }
 
 
@@ -304,7 +312,7 @@ namespace BankComplaintManagement.Application.Services
         // =====================================================
 
 
-        public async Task<ComplaintDetailsDto?> GetDetailsAsync(Guid complaintId)
+        public async Task<ComplaintDetailsDto> GetDetailsAsync(Guid complaintId)
         {
 
             var complaint =
@@ -315,7 +323,8 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                return null;
+               throw new NotFoundException(
+                "Réclamation introuvable.");
             }
 
 
@@ -329,7 +338,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (account == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Compte bancaire introuvable.");
             }
 
@@ -414,7 +423,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Réclamation introuvable.");
             }
 
@@ -430,7 +439,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (agent == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Agent introuvable.");
             }
 
@@ -478,7 +487,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Réclamation introuvable.");
             }
 
@@ -524,7 +533,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Réclamation introuvable.");
             }
 
@@ -562,7 +571,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Réclamation introuvable.");
             }
 
@@ -604,7 +613,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Réclamation introuvable.");
             }
 
@@ -627,7 +636,7 @@ namespace BankComplaintManagement.Application.Services
         }
 
 
-        public async Task<ComplaintDto?> GetByReferenceAsync(
+        public async Task<ComplaintDto> GetByReferenceAsync(
              string referenceNumber)
         {
 
@@ -639,7 +648,8 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                return null;
+                throw new NotFoundException(
+                "Réclamation introuvable.");
             }
 
 

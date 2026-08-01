@@ -2,6 +2,7 @@
 using BankComplaintManagement.Application.Validators.Auth;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using System.Text.Json.Serialization;
 
 namespace BankComplaintManagement.API
 {
@@ -13,7 +14,13 @@ namespace BankComplaintManagement.API
             services.AddControllers(options =>
             {
                 options.Filters.Add<ValidationFilter>();
-            });
+            })
+           .AddJsonOptions(options =>
+           {
+               options.JsonSerializerOptions.Converters.Add(
+                   new JsonStringEnumConverter()
+               );
+           });
 
             services.AddScoped<ValidationFilter>();
 

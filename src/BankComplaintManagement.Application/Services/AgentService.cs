@@ -1,4 +1,5 @@
 ﻿using BankComplaintManagement.Application.DTOs.Agents;
+using BankComplaintManagement.Application.Exceptions;
 using BankComplaintManagement.Application.Interfaces.Services;
 using BankComplaintManagement.Application.Mappings;
 using BankComplaintManagement.Domain.Entities;
@@ -103,7 +104,7 @@ namespace BankComplaintManagement.Application.Services
         // =====================================================
 
 
-        public async Task<AgentDetailsDto?> GetByIdAsync(
+        public async Task<AgentDetailsDto> GetByIdAsync(
             Guid agentId)
         {
 
@@ -114,7 +115,10 @@ namespace BankComplaintManagement.Application.Services
 
 
             if (agent == null)
-                return null;
+            {
+                throw new NotFoundException(
+                    "Agent introuvable.");
+            }
 
 
 
@@ -133,7 +137,7 @@ namespace BankComplaintManagement.Application.Services
         // =====================================================
 
 
-        public async Task<AgentProfileDto?> GetProfileAsync(
+        public async Task<AgentProfileDto> GetProfileAsync(
             Guid agentId)
         {
 
@@ -145,7 +149,10 @@ namespace BankComplaintManagement.Application.Services
 
 
             if (agent == null)
-                return null;
+            {
+                throw new NotFoundException(
+                    "Agent introuvable.");
+            }
 
 
 
@@ -202,7 +209,7 @@ namespace BankComplaintManagement.Application.Services
             if (await _agentRepository
                 .ExistsByEmailAsync(request.Email))
             {
-                throw new InvalidOperationException(
+                throw new ConflictException(
                     "Cet email existe déjà.");
             }
 
@@ -307,7 +314,7 @@ namespace BankComplaintManagement.Application.Services
 
 
             if (agent == null)
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Agent introuvable.");
 
 
@@ -367,7 +374,7 @@ namespace BankComplaintManagement.Application.Services
 
 
             if (agent == null)
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Agent introuvable.");
 
 
@@ -379,7 +386,7 @@ namespace BankComplaintManagement.Application.Services
                     agent.PasswordHash))
             {
 
-                throw new InvalidOperationException(
+                throw new BadRequestException(
                     "Ancien mot de passe incorrect.");
 
             }
@@ -392,7 +399,7 @@ namespace BankComplaintManagement.Application.Services
                request.ConfirmPassword)
             {
 
-                throw new InvalidOperationException(
+                throw new BadRequestException(
                     "La confirmation du mot de passe est incorrecte.");
 
             }
@@ -446,7 +453,7 @@ namespace BankComplaintManagement.Application.Services
 
 
             if (agent == null)
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Agent introuvable.");
 
 

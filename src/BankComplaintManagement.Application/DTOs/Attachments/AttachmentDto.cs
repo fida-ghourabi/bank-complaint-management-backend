@@ -15,8 +15,7 @@ namespace BankComplaintManagement.Application.DTOs.Attachments
         public string FileName { get; set; } = null!;
 
 
-        public string FilePath { get; set; } = null!;
-
+        public string DownloadUrl { get; set; } = null!;
 
         public string ContentType { get; set; } = null!;
 

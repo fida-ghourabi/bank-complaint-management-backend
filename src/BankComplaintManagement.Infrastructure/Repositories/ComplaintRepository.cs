@@ -17,6 +17,7 @@ namespace BankComplaintManagement.Infrastructure.Repositories
 
 
 
+
         public ComplaintRepository(
             ApplicationDbContext context)
         {
@@ -34,7 +35,9 @@ namespace BankComplaintManagement.Infrastructure.Repositories
             Guid id)
         {
             return await _context.Complaints
-                .FirstOrDefaultAsync(c => c.Id == id);
+                 .Include(c => c.Client)
+                 .Include(c => c.AssignedAgent)
+                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
 
@@ -45,6 +48,8 @@ namespace BankComplaintManagement.Infrastructure.Repositories
             return await _context.Complaints
 
                 .Include(c => c.Client)
+
+                .Include(c => c.AssignedAgent)
 
                 .Include(c => c.Messages)
                     .ThenInclude(m => m.Attachments)

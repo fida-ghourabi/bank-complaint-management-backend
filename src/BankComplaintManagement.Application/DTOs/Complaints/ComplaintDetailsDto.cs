@@ -43,6 +43,10 @@ namespace BankComplaintManagement.Application.DTOs.Complaints
 
         public ComplaintPriority Priority { get; set; }
 
+        public DateTime IncidentDate { get; set; }
+
+
+        public TimeSpan IncidentTime { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -50,7 +54,22 @@ namespace BankComplaintManagement.Application.DTOs.Complaints
         public DateTime SlaDueDate { get; set; }
 
 
+        // Affectation agent
 
+        public Guid? AssignedAgentId { get; set; }
+
+
+        public string? AssignedAgentName { get; set; }
+
+        // Transfert
+
+        public ComplaintTransferService? TransferTo { get; set; }
+
+
+
+        // Rejet
+
+        public string? RejectionReason { get; set; }
         // ======================
         // Client
         // ======================

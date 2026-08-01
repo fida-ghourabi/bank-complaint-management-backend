@@ -21,7 +21,7 @@ namespace BankComplaintManagement.Application.Interfaces.Services
         // ===================================
 
 
-        Task<ClientProfileDto?> GetProfileAsync(
+        Task<ClientProfileDto> GetProfileAsync(
             Guid clientId);
 
 
@@ -44,7 +44,7 @@ namespace BankComplaintManagement.Application.Interfaces.Services
         // ===================================
 
 
-        Task<ClientDetailsDto?> GetDetailsAsync(
+        Task<ClientDetailsDto> GetDetailsAsync(
             Guid clientId);
 
 

@@ -7,6 +7,7 @@ using BankComplaintManagement.Infrastructure.Repositories;
 using BankComplaintManagement.Infrastructure.Secutity;
 using BankComplaintManagement.Infrastructure.Services;
 using BankComplaintManagement.Infrastructure.Settings;
+using BankComplaintManagement.Infrastructure.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -71,7 +72,9 @@ namespace BankComplaintManagement.Infrastructure
 
             services.AddScoped<IUserRepository, UserRepository>();
 
+            services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             // ===================================
             // Unit Of Work
             // ===================================
@@ -85,6 +88,12 @@ namespace BankComplaintManagement.Infrastructure
             services.AddScoped<IPasswordService, PasswordService>();
 
             services.AddScoped<IJwtService, JwtService>();
+
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+            services.AddScoped<IFileStorageService, FileStorageService>();
+
+            services.AddScoped<AdminSeeder>();
 
             return services;
 

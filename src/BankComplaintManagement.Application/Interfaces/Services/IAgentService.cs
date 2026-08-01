@@ -16,12 +16,12 @@ namespace BankComplaintManagement.Application.Interfaces.Services
 
 
 
-        Task<AgentDetailsDto?> GetByIdAsync(
+        Task<AgentDetailsDto> GetByIdAsync(
             Guid agentId);
 
 
 
-        Task<AgentProfileDto?> GetProfileAsync(
+        Task<AgentProfileDto> GetProfileAsync(
             Guid agentId);
 
 

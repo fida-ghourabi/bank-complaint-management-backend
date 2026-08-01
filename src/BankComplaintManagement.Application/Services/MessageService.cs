@@ -1,4 +1,5 @@
 ﻿using BankComplaintManagement.Application.DTOs.Messages;
+using BankComplaintManagement.Application.Exceptions;
 using BankComplaintManagement.Application.Interfaces.Services;
 using BankComplaintManagement.Application.Mappings;
 using BankComplaintManagement.Domain.Entities;
@@ -25,7 +26,7 @@ namespace BankComplaintManagement.Application.Services
 
         private readonly INotificationService _notificationService;
 
-
+        private readonly IFileStorageService _storage;
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -36,7 +37,8 @@ namespace BankComplaintManagement.Application.Services
             IMessageRepository messageRepository,
             IAttachmentRepository attachmentRepository,
             INotificationService notificationService,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IFileStorageService storage )
         {
 
             _complaintRepository = complaintRepository;
@@ -48,7 +50,7 @@ namespace BankComplaintManagement.Application.Services
             _notificationService = notificationService;
 
             _unitOfWork = unitOfWork;
-
+            _storage = storage;
         }
 
 
@@ -58,7 +60,7 @@ namespace BankComplaintManagement.Application.Services
 
         public async Task<MessageDto> CreateAsync(
      Guid complaintId,
-     CreateMessageRequest request)
+     CreateMessageRequest request, bool isAgent)
         {
 
             var complaint =
@@ -69,7 +71,7 @@ namespace BankComplaintManagement.Application.Services
 
             if (complaint == null)
             {
-                throw new KeyNotFoundException(
+                throw new NotFoundException(
                     "Réclamation introuvable.");
             }
 
@@ -79,7 +81,7 @@ namespace BankComplaintManagement.Application.Services
             var message =
                 new Message(
                     request.Text,
-                    request.IsAgent,
+                    isAgent,
                     complaintId);
 
 
@@ -100,29 +102,25 @@ namespace BankComplaintManagement.Application.Services
             if (request.Attachments.Any())
             {
 
-                foreach (var attachmentRequest in request.Attachments)
+                foreach (var file in request.Attachments)
                 {
+                    var path = await _storage.SaveFileAsync(file);
 
-                    var attachment =
-                        new Attachment(
-                            attachmentRequest.FileName,
-                            attachmentRequest.FilePath,
-                            attachmentRequest.ContentType,
-                            attachmentRequest.FileSize,
-                            message.Id);
+                    var attachment = new Attachment(
+                        file.FileName,
+                        path,
+                        file.ContentType,
+                        file.Length,
+                        messageId: message.Id);
 
-
-
-                    await _attachmentRepository
-                        .AddAsync(attachment);
-
+                    await _attachmentRepository.AddAsync(attachment);
                 }
 
-
+            }
 
                 // Si le message vient du client
 
-                if (request.IsAgent == false)
+                if (isAgent == false)
                 {
 
                     await _notificationService
@@ -133,7 +131,7 @@ namespace BankComplaintManagement.Application.Services
 
 
                 // Si le message vient de l'agent
-                if (request.IsAgent == true)
+                else 
                 {
 
                     await _notificationService
@@ -145,7 +143,7 @@ namespace BankComplaintManagement.Application.Services
                 await _unitOfWork
                     .SaveChangesAsync();
 
-            }
+            
 
 
 

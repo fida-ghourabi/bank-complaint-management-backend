@@ -1,4 +1,5 @@
 ﻿using BankComplaintManagement.Application.DTOs.Attachments;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +15,7 @@ namespace BankComplaintManagement.Application.DTOs.Messages
 
 
 
-        // true = Agent
-        // false = Client
-        public bool IsAgent { get; set; }
-
-
-
-        public List<CreateAttachmentRequest> Attachments { get; set; }
+        public List<IFormFile> Attachments { get; set; }
             = new();
 
     }
