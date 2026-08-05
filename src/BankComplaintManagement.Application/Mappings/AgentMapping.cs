@@ -142,6 +142,8 @@ namespace BankComplaintManagement.Application.Mappings
 
                 Status = agent.Status,
 
+                CreatedAt = agent.CreatedAt,
+
 
                 AssignedComplaints =
                     assignedComplaints,

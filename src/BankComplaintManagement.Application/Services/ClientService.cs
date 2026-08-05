@@ -241,7 +241,7 @@ namespace BankComplaintManagement.Application.Services
 
         public async Task ChangePasswordAsync(
             Guid clientId,
-            ChangePasswordRequest request)
+            ClientChangePasswordRequest request)
         {
 
 
@@ -343,7 +343,7 @@ namespace BankComplaintManagement.Application.Services
 
             var clients =
                 await _clientRepository
-                .GetPagedAsync(1, 1000);
+                .GetAllAsync();
 
 
 

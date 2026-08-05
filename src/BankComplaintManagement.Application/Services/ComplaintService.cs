@@ -399,7 +399,23 @@ namespace BankComplaintManagement.Application.Services
 
 
 
+        public async Task<IReadOnlyList<ComplaintDto>> GetAllComplaintsAsync()
+     
+        {
 
+
+            var complaints =
+                await _complaintRepository
+                .GetAllComplaintsAsync();
+                    
+
+
+
+            return complaints
+                .Select(c => c.ToDto())
+                .ToList();
+
+        }
 
 
 

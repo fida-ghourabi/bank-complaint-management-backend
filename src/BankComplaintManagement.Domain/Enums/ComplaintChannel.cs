@@ -8,10 +8,10 @@ namespace BankComplaintManagement.Domain.Enums
 {
     public enum ComplaintChannel
     {
-        Branch = 1,
-        ATM = 2,
-        MobileApplication = 3,
-        Website = 4,
-        CallCenter = 5
+        agence = 1,
+        dab = 2,
+        mobile = 3,
+        web = 4,
+        callcenter = 5
     }
 }

@@ -4,22 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankComplaintManagement.Application.DTOs.Clients
+namespace BankComplaintManagement.Application.DTOs.Agents
 {
-    public class ChangePasswordRequest
+    public class AgentChangePasswordRequest
     {
 
-
         public string OldPassword { get; set; } = null!;
-
 
 
         public string NewPassword { get; set; } = null!;
 
 
-
         public string ConfirmPassword { get; set; } = null!;
-
 
     }
 }

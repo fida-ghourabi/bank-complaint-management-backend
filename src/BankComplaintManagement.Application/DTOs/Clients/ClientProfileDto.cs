@@ -18,6 +18,7 @@ namespace BankComplaintManagement.Application.DTOs.Clients
 
         public string FirstName { get; set; } = null!;
 
+        public string CIN { get; set; } = null!;
 
         public string LastName { get; set; } = null!;
 
@@ -27,6 +28,7 @@ namespace BankComplaintManagement.Application.DTOs.Clients
 
         public string PhoneNumber { get; set; } = null!;
 
+        public DateTime CreatedAt { get; set; }
 
 
         public List<BankAccountInfoDto> Accounts { get; set; } = new();

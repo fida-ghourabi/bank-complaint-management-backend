@@ -63,7 +63,7 @@ namespace BankComplaintManagement.Domain.Entities
 
             PhoneNumber = phoneNumber;
 
-            Status = AgentStatus.Active;
+            Status = AgentStatus.actif;
 
         }
 
@@ -72,7 +72,7 @@ namespace BankComplaintManagement.Domain.Entities
 
         public void EnsureCanReceiveComplaint()
         {
-            if (Status != AgentStatus.Active)
+            if (Status != AgentStatus.actif)
             {
                 throw new InvalidOperationException(
                     "Cet agent n'est pas actif et ne peut pas recevoir de réclamation.");

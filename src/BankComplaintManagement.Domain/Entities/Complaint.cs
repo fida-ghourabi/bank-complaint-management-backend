@@ -72,7 +72,7 @@ namespace BankComplaintManagement.Domain.Entities
         // =========================
 
 
-        public decimal? FinancialImpact { get; private set; }
+        public decimal? FinancialImpact { get; set; }
 
 
 
@@ -222,7 +222,7 @@ namespace BankComplaintManagement.Domain.Entities
             Priority = priority;
 
 
-            Status = ComplaintStatus.Open;
+            Status = ComplaintStatus.Ouverte;
 
 
             Unread = true;
@@ -254,15 +254,15 @@ namespace BankComplaintManagement.Domain.Entities
         {
             return priority switch
             {
-                ComplaintPriority.Critical
+                ComplaintPriority.critique
                     => DateTime.UtcNow.AddHours(24),
 
 
-                ComplaintPriority.Urgent
+                ComplaintPriority.urgente
                     => DateTime.UtcNow.AddHours(48),
 
 
-                ComplaintPriority.Normal
+                ComplaintPriority.normale
                     => DateTime.UtcNow.AddDays(5),
 
 
@@ -289,21 +289,21 @@ namespace BankComplaintManagement.Domain.Entities
         {
             return Status switch
             {
-                ComplaintStatus.Open =>
-                    newStatus == ComplaintStatus.InProgress
-                    || newStatus == ComplaintStatus.Rejected,
+                ComplaintStatus.Ouverte =>
+                    newStatus == ComplaintStatus.Encours
+                    || newStatus == ComplaintStatus.Rejetée,
 
-                ComplaintStatus.InProgress =>
-                    newStatus == ComplaintStatus.Resolved
-                    || newStatus == ComplaintStatus.Rejected,
+                ComplaintStatus.Encours =>
+                    newStatus == ComplaintStatus.Résolue
+                    || newStatus == ComplaintStatus.Rejetée,
 
-                ComplaintStatus.Resolved =>
-                    newStatus == ComplaintStatus.Closed,
+                ComplaintStatus.Résolue =>
+                    newStatus == ComplaintStatus.Clôturée,
 
-                ComplaintStatus.Closed =>
+                ComplaintStatus.Clôturée =>
                     false,
 
-                ComplaintStatus.Rejected =>
+                ComplaintStatus.Rejetée =>
                     false,
 
                 _ => false
@@ -320,7 +320,7 @@ namespace BankComplaintManagement.Domain.Entities
             }
 
 
-            ChangeStatus(ComplaintStatus.Rejected);
+            ChangeStatus(ComplaintStatus.Rejetée);
 
 
             RejectionReason = reason;
@@ -329,8 +329,8 @@ namespace BankComplaintManagement.Domain.Entities
 
         public void ChangePriority(ComplaintPriority newPriority)
         {
-            if (Status == ComplaintStatus.Closed ||
-               Status == ComplaintStatus.Rejected)
+            if (Status == ComplaintStatus.Clôturée ||
+               Status == ComplaintStatus.Rejetée)
             {
                 throw new InvalidOperationException(
                     "Impossible de modifier la priorité d'une réclamation terminée.");
@@ -359,8 +359,8 @@ namespace BankComplaintManagement.Domain.Entities
         //Impossible de transférer une réclamation fermée ou rejetée
         public void TransferToService(ComplaintTransferService service)
         {
-            if (Status == ComplaintStatus.Closed ||
-                Status == ComplaintStatus.Rejected)
+            if (Status == ComplaintStatus.Clôturée ||
+                Status == ComplaintStatus.Rejetée)
             {
                 throw new InvalidOperationException(
                     "Impossible de transférer une réclamation terminée.");
@@ -373,8 +373,8 @@ namespace BankComplaintManagement.Domain.Entities
         // Impossible d'ajouter un message après fermeture
         public void AddMessage(Message message)
         {
-            if (Status == ComplaintStatus.Closed ||
-                Status == ComplaintStatus.Rejected)
+            if (Status == ComplaintStatus.Clôturée ||
+                Status == ComplaintStatus.Rejetée)
             {
                 throw new InvalidOperationException(
                     "Impossible d'ajouter un message à une réclamation terminée.");
@@ -413,8 +413,8 @@ namespace BankComplaintManagement.Domain.Entities
 
         public void AssignAgent(Agent agent)
         {
-            if (Status == ComplaintStatus.Closed ||
-                Status == ComplaintStatus.Rejected)
+            if (Status == ComplaintStatus.Clôturée ||
+                Status == ComplaintStatus.Rejetée)
             {
                 throw new InvalidOperationException(
                     "Impossible d'assigner un agent à une réclamation terminée.");

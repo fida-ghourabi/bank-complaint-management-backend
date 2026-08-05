@@ -30,6 +30,7 @@ namespace BankComplaintManagement.Application.DTOs.Agents
 
         public AgentStatus Status { get; set; }
 
+        public DateTime CreatedAt { get; set; }
 
 
         // Statistiques agent

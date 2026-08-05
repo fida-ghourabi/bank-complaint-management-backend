@@ -58,7 +58,7 @@ namespace BankComplaintManagement.Domain.Entities
 
             PhoneNumber = phoneNumber;
 
-            Status = ClientStatus.Active;
+            Status = ClientStatus.actif;
 
         }
 
@@ -72,7 +72,7 @@ namespace BankComplaintManagement.Domain.Entities
         //Un client bloqué ne doit pas créer une réclamation.
         public void EnsureCanCreateComplaint()
         {
-            if (Status == ClientStatus.Blocked)
+            if (Status == ClientStatus.bloque)
             {
                 throw new InvalidOperationException(
                     "Le client est bloqué et ne peut pas créer de réclamation.");

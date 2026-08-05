@@ -82,6 +82,7 @@ namespace BankComplaintManagement.Application.Mappings
                 Status =
                     client.Status,
 
+                CreatedAt = client.CreatedAt,
 
                 TotalComplaints =
                     client.Complaints.Count,
@@ -90,8 +91,8 @@ namespace BankComplaintManagement.Application.Mappings
                 OpenComplaints =
                     client.Complaints
                     .Count(c =>
-                        c.Status ==
-                        Domain.Enums.ComplaintStatus.Open)
+                          c.Status == Domain.Enums.ComplaintStatus.Encours ||
+                          c.Status == Domain.Enums.ComplaintStatus.Résolue)
 
             };
 
@@ -153,7 +154,7 @@ namespace BankComplaintManagement.Application.Mappings
                     client.Status,
 
 
-
+                CreatedAt = client.CreatedAt,
 
 
                 Complaints =
@@ -238,7 +239,8 @@ namespace BankComplaintManagement.Application.Mappings
 
                 LastName =
                     client.LastName,
-
+                CIN =
+                    client.CIN,
 
                 Email =
                     client.Email,
@@ -247,7 +249,8 @@ namespace BankComplaintManagement.Application.Mappings
                 PhoneNumber =
                     client.PhoneNumber,
 
-
+                CreatedAt =
+                    client.CreatedAt,
 
 
 

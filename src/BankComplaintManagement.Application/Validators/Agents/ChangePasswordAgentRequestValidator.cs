@@ -10,7 +10,7 @@ namespace BankComplaintManagement.Application.Validators.Agent
 {
 
     public class ChangePasswordAgentRequestValidator
-    : AbstractValidator<ChangePasswordRequest>
+    : AbstractValidator<AgentChangePasswordRequest>
     {
 
         public ChangePasswordAgentRequestValidator()

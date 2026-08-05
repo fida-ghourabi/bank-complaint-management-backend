@@ -42,7 +42,7 @@ namespace BankComplaintManagement.Application.Interfaces.Services
 
         Task ChangePasswordAsync(
             Guid agentId,
-            ChangePasswordRequest request);
+            AgentChangePasswordRequest request);
 
 
 

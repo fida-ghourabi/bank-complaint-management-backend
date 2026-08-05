@@ -8,8 +8,8 @@ namespace BankComplaintManagement.Domain.Enums
 {
     public enum AccountType
     {
-        Current = 1,
-        Savings = 2,
-        Business = 3
+        Courant = 1,
+        Epargne = 2,
+        Devise = 3
     }
 }

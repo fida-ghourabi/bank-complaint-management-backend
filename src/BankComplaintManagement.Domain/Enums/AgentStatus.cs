@@ -8,7 +8,7 @@ namespace BankComplaintManagement.Domain.Enums
 {
     public enum AgentStatus
     {
-        Active = 1,
-        Inactive = 2
+        actif = 1,
+        inactif = 2
     }
 }

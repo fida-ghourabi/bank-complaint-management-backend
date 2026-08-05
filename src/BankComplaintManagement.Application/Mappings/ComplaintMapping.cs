@@ -154,8 +154,13 @@ namespace BankComplaintManagement.Application.Mappings
                         IncidentTime =
                 complaint.IncidentTime,
 
+                Channel =
+                complaint.Channel,
 
-                        CreatedAt =
+                FinancialImpact =
+                complaint.FinancialImpact,
+
+                CreatedAt =
                 complaint.CreatedAt,
 
 

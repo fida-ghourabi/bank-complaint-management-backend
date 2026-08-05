@@ -48,6 +48,11 @@ namespace BankComplaintManagement.Application.DTOs.Complaints
 
         public TimeSpan IncidentTime { get; set; }
 
+        public ComplaintChannel Channel { get; set; }
+
+
+        public decimal? FinancialImpact { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
 

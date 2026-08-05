@@ -156,7 +156,7 @@ namespace BankComplaintManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ChangePassword(
-            ChangePasswordRequest request)
+            ClientChangePasswordRequest request)
         {
 
 
@@ -252,7 +252,7 @@ namespace BankComplaintManagement.API.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPut("{id:guid}/status")]
+        [HttpPatch("{id:guid}/status")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateStatus(

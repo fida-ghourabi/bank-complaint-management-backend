@@ -363,7 +363,7 @@ namespace BankComplaintManagement.Application.Services
 
         public async Task ChangePasswordAsync(
             Guid agentId,
-            ChangePasswordRequest request)
+            AgentChangePasswordRequest request)
         {
 
 
@@ -496,7 +496,7 @@ namespace BankComplaintManagement.Application.Services
 
 
 
-            if (status == AgentStatus.Inactive)
+            if (status == AgentStatus.inactif)
             {
                 agents =
                 await _agentRepository

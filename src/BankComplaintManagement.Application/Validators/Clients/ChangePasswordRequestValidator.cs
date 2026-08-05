@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace BankComplaintManagement.Application.Validators.Client
 {
     public class ChangePasswordRequestValidator
-    : AbstractValidator<ChangePasswordRequest>
+    : AbstractValidator<ClientChangePasswordRequest>
     {
 
         public ChangePasswordRequestValidator()

@@ -8,12 +8,11 @@ namespace BankComplaintManagement.Domain.Enums
 {
     public enum ComplaintTransferService
     {
-        None = 1,
-        CardService = 2,
-        AccountService = 3,
-        TransferService = 4,
-        LoanService = 5,
-        DigitalBankingService = 6,
-        BranchService = 7
+        CardService = 1,
+        AccountService = 2,
+        TransferService = 3,
+        LoanService = 4,
+        DigitalBankingService = 5,
+        BranchService = 6
     }
 }

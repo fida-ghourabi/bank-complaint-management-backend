@@ -8,13 +8,13 @@ namespace BankComplaintManagement.Domain.Enums
 {
     public enum ComplaintCategory
     {
-        BankCard = 1,
-        BankAccount = 2,
-        Transfer = 3,
-        Loan = 4,
-        OnlinePayment = 5,
-        MobileApplication = 6,
-        BankBranch = 7,
-        Other = 8
+        carte = 1,
+        compte = 2,
+        virement = 3,
+        credit = 4,
+        paiement = 5,
+        digital = 6,
+        agence = 7,
+        autre = 8
     }
 }

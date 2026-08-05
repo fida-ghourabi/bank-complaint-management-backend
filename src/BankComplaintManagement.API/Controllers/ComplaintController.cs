@@ -204,6 +204,28 @@ namespace BankComplaintManagement.API.Controllers
 
 
 
+        // =====================================================
+        // ADMIN
+        // All complaints
+        // =====================================================
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("all")]
+        [ProducesResponseType(typeof(IReadOnlyList<ComplaintDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IReadOnlyList<ComplaintDto>>> GetAllComplaints()
+   
+        {
+
+            var complaints =
+                await _complaintService.GetAllComplaintsAsync();
+                    
+
+
+
+            return Ok(complaints);
+
+        }
 
 
 

@@ -35,6 +35,7 @@ namespace BankComplaintManagement.Application.DTOs.Clients
 
         public ClientStatus Status { get; set; }
 
+        public DateTime CreatedAt { get; set; }
 
 
         public List<ComplaintHistoryDto> Complaints { get; set; } = new();

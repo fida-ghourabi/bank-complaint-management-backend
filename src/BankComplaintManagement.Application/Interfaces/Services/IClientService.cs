@@ -34,7 +34,7 @@ namespace BankComplaintManagement.Application.Interfaces.Services
 
         Task ChangePasswordAsync(
             Guid clientId,
-            ChangePasswordRequest request);
+            ClientChangePasswordRequest request);
 
 
 

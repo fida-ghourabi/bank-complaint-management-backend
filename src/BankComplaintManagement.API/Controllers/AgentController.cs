@@ -61,7 +61,7 @@ namespace BankComplaintManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<CreatedAgentDto>> Create(
-            CreateAgentRequest request)
+            [FromBody] CreateAgentRequest request)
         {
             var createdAgent =
                 await _agentService.CreateAsync(request);
@@ -81,7 +81,7 @@ namespace BankComplaintManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateProfile(
             Guid agentId,
-            UpdateAgentProfileRequest request)
+             [FromBody] UpdateAgentProfileRequest request)
         {
             await _agentService.UpdateProfileAsync(
                 agentId,
@@ -99,7 +99,7 @@ namespace BankComplaintManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ChangePassword(
-            ChangePasswordRequest request)
+            [FromBody] AgentChangePasswordRequest request)
         {
             await _agentService.ChangePasswordAsync(
                 _currentUser.UserId,

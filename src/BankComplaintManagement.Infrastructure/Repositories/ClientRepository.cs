@@ -24,7 +24,8 @@ namespace BankComplaintManagement.Infrastructure.Repositories
         public async Task<Client?> GetByIdAsync(Guid id)
         {
             return await _context.Clients
-                .FirstOrDefaultAsync(c => c.Id == id);
+                       .Include(c => c.Complaints)
+                      .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Client?> GetByIdWithAccountsAsync(Guid id)
@@ -108,9 +109,8 @@ namespace BankComplaintManagement.Infrastructure.Repositories
             return await _context.Clients
 
                 .AsNoTracking()
-
+                .Include(c => c.Complaints)
                 .OrderBy(c => c.LastName)
-
                 .ToListAsync();
 
         }
@@ -153,14 +153,14 @@ namespace BankComplaintManagement.Infrastructure.Repositories
         {
             return await _context.Clients
                 .CountAsync(c =>
-                    c.Status == ClientStatus.Active);
+                    c.Status == ClientStatus.actif);
         }
 
         public async Task<int> CountBlockedClientsAsync()
         {
             return await _context.Clients
                 .CountAsync(c =>
-                    c.Status == ClientStatus.Blocked);
+                    c.Status == ClientStatus.bloque);
         }
 
         public async Task<int> CountByClientAsync(Guid clientId)
@@ -176,7 +176,7 @@ namespace BankComplaintManagement.Infrastructure.Repositories
                 .CountAsync(c =>
                     c.ClientId == clientId
                     &&
-                    c.Status == ComplaintStatus.Open);
+                    c.Status == ComplaintStatus.Ouverte);
         }
 
     }

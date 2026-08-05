@@ -8,8 +8,8 @@ namespace BankComplaintManagement.Domain.Enums
 {
     public enum ComplaintPriority
     {
-        Normal = 1,
-        Urgent = 2,
-        Critical = 3
+        normale = 1,
+        urgente = 2,
+        critique = 3
     }
 }

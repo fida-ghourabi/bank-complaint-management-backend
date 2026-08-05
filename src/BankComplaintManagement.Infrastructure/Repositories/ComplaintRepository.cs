@@ -51,7 +51,8 @@ namespace BankComplaintManagement.Infrastructure.Repositories
 
                 .Include(c => c.AssignedAgent)
 
-                .Include(c => c.Messages)
+                .Include(c => c.Messages.OrderByDescending(m => m.CreatedAt))
+
                     .ThenInclude(m => m.Attachments)
 
                 .Include(c => c.Attachments)
@@ -91,7 +92,16 @@ namespace BankComplaintManagement.Infrastructure.Repositories
         }
 
 
-
+        public async Task<IReadOnlyList<Complaint>> GetAllComplaintsAsync()
+ 
+        {
+            return await _context.Complaints
+                .AsNoTracking()
+                .Include(c => c.Client)
+                .Include(c => c.AssignedAgent)
+                .OrderByDescending(c => c.CreatedAt)
+                .ToListAsync();
+        }
 
         // ==============================
         // Relations
@@ -116,6 +126,8 @@ namespace BankComplaintManagement.Infrastructure.Repositories
         {
             return await _context.Complaints
                 .AsNoTracking()
+                .Include(c => c.Client)
+                .Include(c => c.AssignedAgent)
                 .Where(c => c.AssignedAgentId == agentId)
                 .OrderByDescending(c => c.CreatedAt)
                 .ToListAsync();
@@ -193,9 +205,9 @@ namespace BankComplaintManagement.Infrastructure.Repositories
                 .Where(c =>
                     c.SlaDueDate < DateTime.UtcNow
                     &&
-                    c.Status != ComplaintStatus.Closed
+                    c.Status != ComplaintStatus.Clôturée
                     &&
-                    c.Status != ComplaintStatus.Rejected)
+                    c.Status != ComplaintStatus.Rejetée)
                 .OrderBy(c => c.SlaDueDate)
                 .ToListAsync();
         }
@@ -250,8 +262,8 @@ namespace BankComplaintManagement.Infrastructure.Repositories
             return await _context.Complaints
                 .AsNoTracking()
                 .Where(c =>
-                    c.Status != ComplaintStatus.Closed &&
-                    c.Status != ComplaintStatus.Rejected)
+                    c.Status != ComplaintStatus.Clôturée &&
+                    c.Status != ComplaintStatus.Rejetée)
                 .OrderBy(c => c.SlaDueDate)
                 .ToListAsync();
         }
@@ -291,9 +303,9 @@ namespace BankComplaintManagement.Infrastructure.Repositories
                 .CountAsync(c =>
                     c.SlaDueDate < DateTime.UtcNow
                     &&
-                    c.Status != ComplaintStatus.Closed
+                    c.Status != ComplaintStatus.Clôturée
                     &&
-                    c.Status != ComplaintStatus.Rejected);
+                    c.Status != ComplaintStatus.Rejetée);
         }
 
 
@@ -314,9 +326,9 @@ namespace BankComplaintManagement.Infrastructure.Repositories
         {
             return await _context.Complaints
                 .CountAsync(c =>
-                    c.Priority == ComplaintPriority.Urgent
+                    c.Priority == ComplaintPriority.urgente
                     ||
-                    c.Priority == ComplaintPriority.Critical);
+                    c.Priority == ComplaintPriority.critique);
         }
 
 
@@ -347,9 +359,9 @@ namespace BankComplaintManagement.Infrastructure.Repositories
             return await _context.Complaints
                 .AsNoTracking()
                 .Where(c =>
-                    c.Priority == ComplaintPriority.Urgent
+                    c.Priority == ComplaintPriority.urgente
                     ||
-                    c.Priority == ComplaintPriority.Critical)
+                    c.Priority == ComplaintPriority.critique)
                 .OrderByDescending(c => c.Priority)
                 .ThenBy(c => c.SlaDueDate)
                 .ToListAsync();

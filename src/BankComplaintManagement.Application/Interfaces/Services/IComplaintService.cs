@@ -32,6 +32,8 @@ namespace BankComplaintManagement.Application.Interfaces.Services
             int pageNumber,
             int pageSize);
 
+
+        Task<IReadOnlyList<ComplaintDto>> GetAllComplaintsAsync();
         Task<ComplaintDto> GetByReferenceAsync(
             string referenceNumber);
 

@@ -8,7 +8,7 @@ namespace BankComplaintManagement.Domain.Enums
 {
     public enum ClientStatus
     {
-        Active = 1,
-        Blocked = 2
+        actif = 1,
+        bloque = 2
     }
 }

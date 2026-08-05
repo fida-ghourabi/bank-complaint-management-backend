@@ -8,10 +8,10 @@ namespace BankComplaintManagement.Domain.Enums
 {
     public enum ComplaintStatus
     {
-        Open = 1,
-        InProgress = 2,
-        Resolved = 3,
-        Closed = 4,
-        Rejected = 5
+        Ouverte = 1,
+        Encours = 2,
+        Résolue = 3,
+        Clôturée = 4,
+        Rejetée = 5
     }
 }

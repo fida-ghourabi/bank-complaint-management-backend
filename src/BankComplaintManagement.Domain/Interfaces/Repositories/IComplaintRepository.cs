@@ -34,7 +34,7 @@ namespace BankComplaintManagement.Domain.Interfaces.Repositories
             int pageNumber,
             int pageSize);
 
-
+        Task<IReadOnlyList<Complaint>> GetAllComplaintsAsync();
 
         // ==============================
         // Relations

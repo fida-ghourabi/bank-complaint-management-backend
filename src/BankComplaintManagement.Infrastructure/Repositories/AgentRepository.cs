@@ -92,7 +92,7 @@ namespace BankComplaintManagement.Infrastructure.Repositories
             return await _context.Agents
                 .AsNoTracking()
                 .Where(a =>
-                    a.Status == AgentStatus.Active)
+                    a.Status == AgentStatus.actif)
                 .OrderBy(a => a.LastName)
                 .ToListAsync();
         }
@@ -106,7 +106,7 @@ namespace BankComplaintManagement.Infrastructure.Repositories
             return await _context.Agents
                 .AsNoTracking()
                 .Where(a =>
-                    a.Status == AgentStatus.Inactive)
+                    a.Status == AgentStatus.inactif)
                 .OrderBy(a => a.LastName)
                 .ToListAsync();
         }
@@ -196,7 +196,7 @@ namespace BankComplaintManagement.Infrastructure.Repositories
         {
             return await _context.Agents
                 .CountAsync(a =>
-                    a.Status == AgentStatus.Active);
+                    a.Status == AgentStatus.actif   );
         }
 
 
@@ -209,7 +209,7 @@ namespace BankComplaintManagement.Infrastructure.Repositories
         {
             return await _context.Agents
                 .CountAsync(a =>
-                    a.Status == AgentStatus.Inactive);
+                    a.Status == AgentStatus.inactif);
         }
 
 
@@ -234,9 +234,9 @@ namespace BankComplaintManagement.Infrastructure.Repositories
                     c.AssignedAgentId == agentId
                     &&
                     (
-                        c.Status == ComplaintStatus.Resolved
+                        c.Status == ComplaintStatus.Résolue
                         ||
-                        c.Status == ComplaintStatus.Closed
+                        c.Status == ComplaintStatus.Clôturée
                     ));
         }
 
@@ -255,7 +255,7 @@ namespace BankComplaintManagement.Infrastructure.Repositories
                 .CountAsync(c =>
                     c.AssignedAgentId == agentId
                     &&
-                    c.Status == ComplaintStatus.InProgress);
+                    c.Status == ComplaintStatus.Encours);
         }
 
 
@@ -275,9 +275,9 @@ namespace BankComplaintManagement.Infrastructure.Repositories
                     &&
                     c.SlaDueDate < DateTime.UtcNow
                     &&
-                    c.Status != ComplaintStatus.Closed
+                    c.Status != ComplaintStatus.Clôturée
                     &&
-                    c.Status != ComplaintStatus.Rejected);
+                    c.Status != ComplaintStatus.Rejetée);
         }
 
 
