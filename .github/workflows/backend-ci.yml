@@ -28,11 +28,11 @@ jobs:
 
       # 1. Checkout backend
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # 2. Setup .NET
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '9.0.x'
 
@@ -42,9 +42,7 @@ jobs:
 
       # 4. Build
       - name: Build
-        run: dotnet build BankComplaintManagement.sln \
-          --configuration Release \
-          --no-restore
+        run: dotnet build BankComplaintManagement.sln --configuration Release --no-restore
 
       # 5. Login to GHCR
       - name: Log in to GitHub Container Registry
@@ -62,7 +60,7 @@ jobs:
           docker build \
             -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
             -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
-            .
+            
 
       # 7. Push Docker image
       - name: Push Docker image
@@ -77,7 +75,7 @@ jobs:
       # 8. Checkout infrastructure repository
       - name: Checkout infrastructure repository
         if: github.event_name == 'push'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{ env.INFRA_REPO }}
           token: ${{ secrets.INFRA_REPO_TOKEN }}
