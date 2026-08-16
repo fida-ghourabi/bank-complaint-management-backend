@@ -47,6 +47,8 @@ WORKDIR /app
 
 COPY --from=build /app/publish .
 
+# Run the application as a non-root user
+USER app
 
 EXPOSE 8080
 

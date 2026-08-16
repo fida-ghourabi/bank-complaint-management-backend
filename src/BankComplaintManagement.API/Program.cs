@@ -26,6 +26,7 @@ using JwtSettings = BankComplaintManagement.Infrastructure.Settings.JwtSettings;
 var builder = WebApplication.CreateBuilder(args);
 
 
+builder.Services.AddHealthChecks();
 
 builder.Services.AddHttpContextAccessor();
  
@@ -223,6 +224,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapHealthChecks("/health");
 
 
 
