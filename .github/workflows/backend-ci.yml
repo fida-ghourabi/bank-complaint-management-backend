@@ -56,11 +56,7 @@ jobs:
       # 6. Build Docker image
       - name: Build Docker image
         if: github.event_name == 'push'
-        run: |
-          docker build \
-            -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
-            -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
-            
+        run: docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .            
 
       # 7. Push Docker image
       - name: Push Docker image
