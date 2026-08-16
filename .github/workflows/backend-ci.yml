@@ -1,4 +1,4 @@
-name: Backend CI
+name: Backend CI/CD
 
 on:
   push:
@@ -12,8 +12,10 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  INFRA_REPO: fida-ghourabi/bank-complaint-management-infra
 
 jobs:
+
   build:
     name: Build and Publish Backend
     runs-on: ubuntu-latest
@@ -23,7 +25,8 @@ jobs:
       packages: write
 
     steps:
-      # 1. Checkout
+
+      # 1. Checkout backend
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -39,7 +42,9 @@ jobs:
 
       # 4. Build
       - name: Build
-        run: dotnet build BankComplaintManagement.sln --configuration Release --no-restore
+        run: dotnet build BankComplaintManagement.sln \
+          --configuration Release \
+          --no-restore
 
       # 5. Login to GHCR
       - name: Log in to GitHub Container Registry
@@ -52,6 +57,7 @@ jobs:
 
       # 6. Build Docker image
       - name: Build Docker image
+        if: github.event_name == 'push'
         run: |
           docker build \
             -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
@@ -62,5 +68,48 @@ jobs:
       - name: Push Docker image
         if: github.event_name == 'push'
         run: |
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker push \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+          docker push \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+      # 8. Checkout infrastructure repository
+      - name: Checkout infrastructure repository
+        if: github.event_name == 'push'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.INFRA_REPO }}
+          token: ${{ secrets.INFRA_REPO_TOKEN }}
+          path: infra
+
+      # 9. Update Kubernetes image
+      - name: Update backend image
+        if: github.event_name == 'push'
+        run: |
+          cd infra
+
+          sed -i \
+            "s|image: ghcr.io/fida-ghourabi/bank-complaint-management-backend:.*|image: ghcr.io/fida-ghourabi/bank-complaint-management-backend:${{ github.sha }}|" \
+            k8s/api/deployment.yaml
+
+          echo "Updated backend image:"
+          grep "image: ghcr.io/fida-ghourabi/bank-complaint-management-backend" \
+            k8s/api/deployment.yaml
+
+      # 10. Commit and push infrastructure change
+      - name: Commit and push infrastructure change
+        if: github.event_name == 'push'
+        run: |
+          cd infra
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add k8s/api/deployment.yaml
+
+          git commit \
+            -m "chore: update backend image to ${{ github.sha }}" \
+            || echo "No changes to commit"
+
+          git push
