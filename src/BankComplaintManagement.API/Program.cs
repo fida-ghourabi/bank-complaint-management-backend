@@ -58,7 +58,7 @@ builder.Services.AddInfrastructure(
     builder.Configuration);
 
 
-
+// CI/CD test - Argo CD automatic deployment
 
 
 
