@@ -55,7 +55,7 @@ builder.Services.AddOpenTelemetry()
             .AddOtlpExporter(options =>
             {
                 options.Endpoint = new Uri(
-                    "http://tempo.monitoring.svc.cluster.local:4318"
+                    "http://tempo.monitoring.svc.cluster.local:4318/v1/traces"
                 );
                 options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
             });
