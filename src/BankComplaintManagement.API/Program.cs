@@ -52,6 +52,7 @@ builder.Services.AddOpenTelemetry()
                 options.Endpoint = new Uri(
                     "http://tempo.monitoring.svc.cluster.local:4318"
                 );
+                options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
             });
     });
 
