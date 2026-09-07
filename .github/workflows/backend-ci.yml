@@ -44,7 +44,11 @@ jobs:
       - name: Build
         run: dotnet build BankComplaintManagement.sln --configuration Release --no-restore
 
-      # 5. Login to GHCR
+      # 5. Run tests
+      - name: Run tests
+        run: dotnet test BankComplaintManagement.sln --configuration Release --no-build --no-restore
+
+      # 6. Login to GHCR
       - name: Log in to GitHub Container Registry
         if: github.event_name == 'push'
         uses: docker/login-action@v3
@@ -53,12 +57,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # 6. Build Docker image
+      # 7. Build Docker image
       - name: Build Docker image
         if: github.event_name == 'push'
         run: docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .            
 
-      # 7. Push Docker image
+      # 8. Push Docker image
       - name: Push Docker image
         if: github.event_name == 'push'
         run: |
@@ -68,7 +72,7 @@ jobs:
           docker push \
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
-      # 8. Checkout infrastructure repository
+      # 9. Checkout infrastructure repository
       - name: Checkout infrastructure repository
         if: github.event_name == 'push'
         uses: actions/checkout@v6
@@ -77,7 +81,7 @@ jobs:
           token: ${{ secrets.INFRA_REPO_TOKEN }}
           path: infra
 
-      # 9. Update Kubernetes image
+      # 10. Update Kubernetes image
       - name: Update backend image
         if: github.event_name == 'push'
         run: |
@@ -91,7 +95,7 @@ jobs:
           grep "image: ghcr.io/fida-ghourabi/bank-complaint-management-backend" \
             k8s/api/deployment.yaml
 
-      # 10. Commit and push infrastructure change
+      # 11. Commit and push infrastructure change
       - name: Commit and push infrastructure change
         if: github.event_name == 'push'
         run: |
