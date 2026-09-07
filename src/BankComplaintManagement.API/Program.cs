@@ -21,12 +21,15 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using System.Text;
 using JwtSettings = BankComplaintManagement.Infrastructure.Settings.JwtSettings;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.AddFilter("OpenTelemetry", LogLevel.Debug);
+builder.Logging.AddFilter("OpenTelemetry.Exporter", LogLevel.Debug);
 
 builder.Services.AddHealthChecks();
 
@@ -35,6 +38,8 @@ builder.Services.AddHealthChecks();
 // ================================
 
 builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource =>
+        resource.AddService("bank-complaint-api"))
     .WithMetrics(metrics =>
     {
         metrics
@@ -256,7 +261,6 @@ app.MapHealthChecks("/health");
 
 
 app.MapPrometheusScrapingEndpoint();
-
 
 
 
