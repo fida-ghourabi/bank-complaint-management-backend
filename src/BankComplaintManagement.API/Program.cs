@@ -21,6 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 using System.Text;
 using JwtSettings = BankComplaintManagement.Infrastructure.Settings.JwtSettings;
 
@@ -40,6 +41,18 @@ builder.Services.AddOpenTelemetry()
             .AddAspNetCoreInstrumentation()
             .AddRuntimeInstrumentation()
             .AddPrometheusExporter();
+    })
+    .WithTracing(tracing =>
+    {
+        tracing
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddOtlpExporter(options =>
+            {
+                options.Endpoint = new Uri(
+                    "http://tempo.monitoring.svc.cluster.local:4318"
+                );
+            });
     });
 
 builder.Services.AddHttpContextAccessor();
