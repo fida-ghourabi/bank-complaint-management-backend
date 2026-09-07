@@ -18,6 +18,9 @@ COPY ["src/BankComplaintManagement.Domain/BankComplaintManagement.Domain.csproj"
 
 COPY ["src/BankComplaintManagement.Infrastructure/BankComplaintManagement.Infrastructure.csproj", "src/BankComplaintManagement.Infrastructure/"]
 
+COPY ["tests/BankComplaintManagement.Application.Tests/BankComplaintManagement.Application.Tests.csproj", "tests/BankComplaintManagement.Application.Tests/"]
+
+COPY ["tests/BankComplaintManagement.IntegrationTests/BankComplaintManagement.IntegrationTests.csproj", "tests/BankComplaintManagement.IntegrationTests/"]
 
 RUN dotnet restore
 
