@@ -52,6 +52,7 @@ builder.Services.AddOpenTelemetry()
         tracing
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
+            .AddEntityFrameworkCoreInstrumentation()
             .AddOtlpExporter(options =>
             {
                 options.Endpoint = new Uri(
