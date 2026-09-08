@@ -102,11 +102,7 @@ namespace BankComplaintManagement.Application.DTOs.Complaints
 
 
 
-            // =========================
-            // Notification
-            // =========================
-
-            public bool Unread { get; set; }
+           
 
         }
     }

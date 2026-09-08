@@ -128,12 +128,6 @@ namespace BankComplaintManagement.Infrastructure.Configurations
                 .HasMaxLength(500);
 
 
-
-
-            builder.Property(c => c.Unread)
-                .IsRequired();
-
-
             builder.Property(c => c.SlaDueDate)
                 .IsRequired();
 

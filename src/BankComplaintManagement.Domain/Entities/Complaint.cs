@@ -110,7 +110,6 @@ namespace BankComplaintManagement.Domain.Entities
         // =========================
 
 
-        public bool Unread { get; set; }
 
 
 
@@ -225,7 +224,6 @@ namespace BankComplaintManagement.Domain.Entities
             Status = ComplaintStatus.Ouverte;
 
 
-            Unread = true;
 
 
             SlaDueDate = CalculateSla(priority);
@@ -382,7 +380,6 @@ namespace BankComplaintManagement.Domain.Entities
 
             Messages.Add(message);
 
-            Unread = true;
         }
 
 

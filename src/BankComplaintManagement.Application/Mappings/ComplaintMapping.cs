@@ -92,8 +92,7 @@ namespace BankComplaintManagement.Application.Mappings
                     complaint.UpdatedAt,
 
 
-                Unread =
-                    complaint.Unread
+              
 
             };
 
