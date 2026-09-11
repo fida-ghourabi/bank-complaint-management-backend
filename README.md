@@ -75,20 +75,20 @@ flowchart LR
 
 	subgraph OUTER[" "]
 		direction TB
-		API["API\nControllers REST, middleware, Swagger"]
-		Infrastructure["Infrastructure\nRepositories, EF Core, sécurité, stockage"]
+		API["API<br/>Controllers REST, middleware, Swagger"]
+		Infrastructure["Infrastructure<br/>Repositories, EF Core, sécurité, stockage"]
 		SQL[(SQL Server)]
 		Files[(Pièces jointes)]
-		Observability["OpenTelemetry\nPrometheus / OTLP"]
+		Observability["OpenTelemetry<br/>Prometheus / OTLP"]
 		Infrastructure --> SQL
 		Infrastructure --> Files
 		API --> Observability
 
 		subgraph USECASES[" "]
-			Application["Application\nCas d'utilisation, services, DTOs, validators"]
+			Application["Application<br/>Cas d'utilisation, services, DTOs, validators"]
 
 			subgraph ENTERPRISE["Enterprise Business Rules - coeur métier"]
-				Domain["Domain\nEntités, enums, contrats métier"]
+				Domain["Domain<br/>Entités, enums, contrats métier"]
 			end
 
 			Application -->|règles métier| Domain
@@ -96,8 +96,8 @@ flowchart LR
 	end
 
 	API -->|appelle les cas d'utilisation| Application
-	Infrastructure -. "implémente les ports / interfaces" .-> Application
-	API -. "composition root / injection DI" .-> Infrastructure
+	Infrastructure -.->|implémente les ports / interfaces| Application
+	API -.->|composition root / injection DI| Infrastructure
 
 	classDef actor fill:#e8f1fb,stroke:#2563eb,color:#172554
 	classDef api fill:#dbeafe,stroke:#1d4ed8,color:#172554
@@ -372,20 +372,20 @@ flowchart LR
 
 	subgraph OUTER[" "]
 		direction TB
-		API["API\nREST controllers, middleware, Swagger"]
-		Infrastructure["Infrastructure\nRepositories, EF Core, security, storage"]
+		API["API<br/>REST controllers, middleware, Swagger"]
+		Infrastructure["Infrastructure<br/>Repositories, EF Core, security, storage"]
 		SQL[(SQL Server)]
 		Files[(Attachments)]
-		Observability["OpenTelemetry\nPrometheus / OTLP"]
+		Observability["OpenTelemetry<br/>Prometheus / OTLP"]
 		Infrastructure --> SQL
 		Infrastructure --> Files
 		API --> Observability
 
 		subgraph USECASES[" "]
-			Application["Application\nUse cases, services, DTOs, validators"]
+			Application["Application<br/>Use cases, services, DTOs, validators"]
 
 			subgraph ENTERPRISE["Enterprise Business Rules - business core"]
-				Domain["Domain\nEntities, enums, business contracts"]
+				Domain["Domain<br/>Entities, enums, business contracts"]
 			end
 
 			Application -->|business rules| Domain
@@ -393,8 +393,8 @@ flowchart LR
 	end
 
 	API -->|calls use cases| Application
-	Infrastructure -. "implements ports / interfaces" .-> Application
-	API -. "composition root / dependency injection" .-> Infrastructure
+	Infrastructure -.->|implements ports / interfaces| Application
+	API -.->|composition root / dependency injection| Infrastructure
 ```
 
 **How to read the diagram:** the business domain is at the center and does not depend on technical details. The application contains the use cases. The API and infrastructure are external adapters; infrastructure implements the interfaces expected by the application. Dashed arrows represent dependency injection and application composition at startup.
